@@ -172,7 +172,7 @@
 						</form>	
 						<!-- 로그인한 아이디와 댓글의 작성자와 같으면 수정폼 출력 -->				
 						<c:if test="${id eq tmp.writer }">
-							<form class="comment-update-form" action="comment_update.do">
+							<form class="comment-update-form" action="comment_update.do" method="post">
 								<input type="hidden" name="num" value="${tmp.num }" />
 								<textarea name="content">${tmp.content }</textarea>
 								<button type="submit">수정</button>
@@ -244,10 +244,11 @@
 	function deleteComment(num){
 		var isDelete=confirm("확인을 누르면 댓글이 삭제 됩니다.");
 		if(isDelete){
+			//페이지 전환 없이 ajax요청을 통해서 삭제하기
 			$.ajax({
-				url:"comment_delete.do",
+				url:"comment_delete.do",//    <-상대경로로        절대경로로->"/cafe/comment_delete.do"요청
 				method:"post",
-				data:{"num":num},
+				data:{"num":num}, // num이라는 파라미터명으로 삭제할 댓글의 번호 전송
 				success:function(responseData){
 					if(responseData.isSuccess){
 						var sel="#comment"+num;
@@ -269,12 +270,24 @@
 		}
 	});
 	
+	//폼에 focus 이벤트가 일어 났을때 실행할 함수 등록 
+	$(".comments form textarea").on("click", function(){
+		//로그인 여부
+		var isLogin=${not empty id};
+		if(isLogin==false){
+			var isMove=confirm("로그인 페이지로 이동하시겠습니까?");
+			if(isMove){
+				location.href="${pageContext.request.contextPath}/users/loginform.do?url=${pageContext.request.contextPath}/cafe/detail.do?num=${dto.num}";
+			}
+		}
+	});
+	
 	//답글 달기 링크를 클릭했을때 실행할 함수 등록
 	$(".comment .reply_link").click(function(){
 		$(this)
 		.parent().parent().parent()
 		.find(".comment-insert-form")
-		.slideToggle(200);
+		.slideToggle(200); /* 접혀져있으면 펼치고 펼쳐져있으면 접게하는 스크립트 */
 		
 		// 답글 <=> 취소가 서로 토글 되도록 한다. 
 		if($(this).text()=="답글"){

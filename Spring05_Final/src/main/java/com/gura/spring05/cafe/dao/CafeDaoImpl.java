@@ -32,7 +32,6 @@ public class CafeDaoImpl implements CafeDao{
 
 	@Override
 	public CafeDto getData(CafeDto dto) {
-		// TODO Auto-generated method stub
 		return session.selectOne("cafe.getData", dto);
 	}
 
@@ -48,7 +47,6 @@ public class CafeDaoImpl implements CafeDao{
 
 	@Override
 	public CafeDto getData(int num) {
-		// TODO Auto-generated method stub
 		return session.selectOne("cafe.getData2", num);
 	}
 
