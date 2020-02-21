@@ -1,5 +1,8 @@
 package com.gura.spring05.exception;
 
+import java.util.Random;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +26,31 @@ public class ExceptionController {
 		ModelAndView mView=new ModelAndView();
 		mView.addObject("msg", "남의 파일 지우면 혼난다~");
 		mView.setViewName("error/forbidden");
+		return mView;
+	}
+	//custom예외처리
+	@ExceptionHandler(NoDeliveryException.class)
+	public ModelAndView noDelivery(NoDeliveryException nde) {
+		ModelAndView mView=new ModelAndView();
+		mView.addObject("exception",nde);
+		mView.setViewName("error/data_access");
+
+		return mView;
+	}
+	/*
+	 * @Reapository 어노테이션이 작성된 Dao에서 DB관련된 Exception이 발생하면 
+	 * Spring프레임워크가 DataAccessException type의 예외를 발생시킨다.
+	 * 예외 객체는 메소드의 인자로 전달되고 해당예외객체는 getMessage()라는
+	 * getter 메소드가 존재한다.
+	 * 해당 메소드를 호출하면 예외 메세지를 리턴해준다.
+	 */
+	@ExceptionHandler(DataAccessException.class)
+	public ModelAndView dataAccess(DataAccessException dae) {
+		ModelAndView mView=new ModelAndView();
+		//"exception"이라는 키값으로 예외객체를 담는다.
+		mView.addObject("exception",dae);
+		//view page설정
+		mView.setViewName("error/data_access");
 		return mView;
 	}
 }

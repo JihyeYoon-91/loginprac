@@ -40,11 +40,13 @@
 			<input class="form-control" type="password" id="pwd2" name="pwd2"/>
 		</div>
 		<div class="form-group has-feedback">
-			<label class="control-label" for="email">이메일</label>
-			<input class="form-control" type="email" id="email" name="email" />
-			<p class="help-block" id="email_notmatch">이메일 형식에 맞게 입력하세요</p>
-			<span class="glyphicon glyphicon-remove form-control-feedback"></span>
-			<span class="glyphicon glyphicon-ok form-control-feedback"></span>
+			<label class="control-label" for="wallet">잔액</label>
+			<p>3000 <a href="wallet_charge">잔액 충전하러가기</a></p>
+		</div>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" name="isWriter" value="true"/>작가로 가입하기
+			</label>
 		</div>
 		<button disabled="disabled" class="btn btn-primary" type="submit">가입</button>
 		<button class="btn btn-warning" type="reset">취소</button>
